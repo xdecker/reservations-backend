@@ -4,8 +4,30 @@ namespace App\Http\Controllers;
 use App\Models\Space;
 use Illuminate\Http\Request;
 
+/**
+ * @OA\Info(title="Reservations API", version="1.0")
+ * @OA\Server(url="http://localhost:8000/api")
+ * 
+ * @OA\SecurityScheme(
+ *     securityScheme="bearerAuth",
+ *     type="http",
+ *     scheme="bearer",
+ *     bearerFormat="JWT"
+ * )
+ */
+
 class SpaceController extends Controller
 {
+
+    /**
+     * @OA\Get(
+     *     path="/spaces",
+     *     tags={"Spaces"},
+     *     summary="Get all spaces",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(response=200, description="OK")
+     * )
+     */
     public function getAll(){
         return response()->json([
             'data' => Space::where('active', true)->get(),
@@ -13,6 +35,24 @@ class SpaceController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/spaces",
+     *     tags={"Spaces"},
+     *     summary="Create a new space",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name","capacity"},
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="capacity", type="integer"),
+     *             @OA\Property(property="description", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(response=201, description="Space created successfully")
+     * )
+     */
     public function create(Request $request){
         $validated = $request->validate([
             'name' => 'required|string',
@@ -26,6 +66,24 @@ class SpaceController extends Controller
         ], 201);
     }
 
+
+
+    /**
+     * @OA\Get(
+     *     path="/spaces/{id}",
+     *     tags={"Spaces"},
+     *     summary="Get a single space by ID",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Space retrieved successfully"),
+     *     @OA\Response(response=404, description="Space not found")
+     * )
+     */
     public function get($id){
         $space = Space::where('id', $id)
         ->where('active', true)
@@ -43,6 +101,30 @@ class SpaceController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Put(
+     *     path="/spaces/{id}",
+     *     tags={"Spaces"},
+     *     summary="Update a space",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="capacity", type="integer"),
+     *             @OA\Property(property="description", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(response=200, description="Space updated successfully"),
+     *     @OA\Response(response=404, description="Space not found")
+     * )
+     */
     public function update(Request $request, $id)
     {
         $space = Space::where('id', $id)
@@ -69,6 +151,22 @@ class SpaceController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/spaces/{id}",
+     *     tags={"Spaces"},
+     *     summary="Delete a space (soft delete)",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Space deleted successfully"),
+     *     @OA\Response(response=404, description="Space not found")
+     * )
+     */
     public function delete($id){
 
         $space = Space::where('id', $id)

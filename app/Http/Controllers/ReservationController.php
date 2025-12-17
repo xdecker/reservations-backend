@@ -7,8 +7,21 @@ use App\Models\Reservation;
 use App\Models\Space;
 use Illuminate\Http\Request;
 
+/**
+ * @OA\Tag(name="Reservations", description="Endpoints for managing reservations")
+ */
+
 class ReservationController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/reservations",
+     *     tags={"Reservations"},
+     *     summary="Get all reservations for the authenticated user",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(response=200, description="OK")
+     * )
+     */
     public function getAll(){
         $reservations = Reservation::where('user_id', auth()->id())
         ->where('active', true)
@@ -21,6 +34,17 @@ class ReservationController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/reservations/{id}",
+     *     tags={"Reservations"},
+     *     summary="Get a reservation by ID",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(response=200, description="OK"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function get($id){
         $reservation = Reservation::where('id', $id)
         ->where('active', true)
@@ -38,6 +62,25 @@ class ReservationController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/reservations",
+     *     tags={"Reservations"},
+     *     summary="Create a new reservation",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"space_id","event_name","start_time","end_time"},
+     *             @OA\Property(property="space_id", type="integer"),
+     *             @OA\Property(property="event_name", type="string"),
+     *             @OA\Property(property="start_time", type="string", format="date-time"),
+     *             @OA\Property(property="end_time", type="string", format="date-time")
+     *         )
+     *     ),
+     *     @OA\Response(response=201, description="Reservation created successfully")
+     * )
+     */
     public function create(StoreReservationRequest $request)
     {
         $data = $request->validated();
@@ -76,6 +119,25 @@ class ReservationController extends Controller
         ], 201);
     }
 
+    /**
+     * @OA\Put(
+     *     path="/reservations/{id}",
+     *     tags={"Reservations"},
+     *     summary="Update a reservation",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="event_name", type="string"),
+     *             @OA\Property(property="start_time", type="string", format="date-time"),
+     *             @OA\Property(property="end_time", type="string", format="date-time")
+     *         )
+     *     ),
+     *     @OA\Response(response=200, description="Reservation updated successfully"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function update(UpdateReservationRequest $request, $id){
         $reservation = Reservation::where('id', $id)
         ->where('active', true)
@@ -122,6 +184,17 @@ class ReservationController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/reservations/{id}",
+     *     tags={"Reservations"},
+     *     summary="Delete a reservation",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(response=200, description="Reservation deleted successfully"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function delete($id){
         $reservation = Reservation::where('id', $id)
         ->where('active', true)
