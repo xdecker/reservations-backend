@@ -16,14 +16,14 @@ Route::middleware('auth:api')->group(function () {
     //spaces
     Route::get('/spaces', [SpaceController::class, 'getAll']);
     Route::post('/spaces', [SpaceController::class, 'create']);
-    Route::get('/spaces/{space}', [SpaceController::class, 'get']);
-    Route::put('/spaces/{space}', [SpaceController::class, 'update']);
-    Route::delete('/spaces/{space}', [SpaceController::class, 'delete']);
+    Route::get('/spaces/{id}', [SpaceController::class, 'get']);
+    Route::put('/spaces/{id}', [SpaceController::class, 'update']);
+    Route::delete('/spaces/{id}', [SpaceController::class, 'delete']);
 
     //reservations
     Route::get('/reservations', [ReservationController::class, 'getAll']);
     Route::post('/reservations',[ReservationController::class,'create']);
-    Route::get('/reservations/{reservation}',[ReservationController::class,'get']);
-    Route::put('/reservations/{reservation}',[ReservationController::class,'update']);
-    Route::delete('/reservations/{reservation}',[ReservationController::class,'delete']);
+    Route::get('/reservations/{id}',[ReservationController::class,'get']);
+    Route::put('/reservations/{id}',[ReservationController::class,'update']);
+    Route::delete('/reservations/{id}',[ReservationController::class,'delete']);
 });

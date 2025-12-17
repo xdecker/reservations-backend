@@ -26,21 +26,30 @@ class SpaceController extends Controller
         ], 201);
     }
 
-    public function get(Space $space){
-        if(! $space->active){
+    public function get($id){
+        $space = Space::where('id', $id)
+        ->where('active', true)
+        ->first();
+
+        if (! $space) {
             return response()->json([
                 'message' => 'The selected space does not exist or is no longer available'
             ], 404);
         }
+        
         return response()->json([
             'data' => $space,
             'message' => 'Space retrieved successfully'
         ]);
     }
 
-    public function update(Request $request, Space $space)
+    public function update(Request $request, $id)
     {
-        if (! $space->active) {
+        $space = Space::where('id', $id)
+        ->where('active', true)
+        ->first();
+
+        if (! $space) {
             return response()->json([
                 'message' => 'The selected space does not exist or is no longer available'
             ], 404);
@@ -60,9 +69,13 @@ class SpaceController extends Controller
         ]);
     }
 
-    public function delete(Space $space){
+    public function delete($id){
 
-        if (! $space->active) {
+        $space = Space::where('id', $id)
+        ->where('active', true)
+        ->first();
+
+        if (! $space) {
             return response()->json([
                 'message' => 'The selected space does not exist or is no longer available'
             ], 404);

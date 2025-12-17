@@ -21,8 +21,13 @@ class ReservationController extends Controller
         ]);
     }
 
-    public function get(Reservation $reservation){
-        if (! $reservation->active || $reservation->user_id !== auth()->id()) {
+    public function get($id){
+        $reservation = Reservation::where('id', $id)
+        ->where('active', true)
+        ->where('user_id', auth()->id())
+        ->first();
+
+        if (! $reservation) {
             return response()->json([
                 'message' => 'The reservation does not exist or you do not have access'
             ], 404);
@@ -71,8 +76,13 @@ class ReservationController extends Controller
         ], 201);
     }
 
-    public function update(UpdateReservationRequest $request, Reservation $reservation){
-        if (! $reservation->active || $reservation->user_id !== auth()->id()) {
+    public function update(UpdateReservationRequest $request, $id){
+        $reservation = Reservation::where('id', $id)
+        ->where('active', true)
+        ->where('user_id', auth()->id())
+        ->first();
+
+        if (! $reservation) {
             return response()->json([
                 'message' => 'The reservation does not exist or you do not have access'
             ], 404);
@@ -112,8 +122,13 @@ class ReservationController extends Controller
         ]);
     }
 
-    public function delete(Reservation $reservation){
-        if (! $reservation->active || $reservation->user_id !== auth()->id()) {
+    public function delete($id){
+        $reservation = Reservation::where('id', $id)
+        ->where('active', true)
+        ->where('user_id', auth()->id())
+        ->first();
+
+        if (! $reservation) {
             return response()->json([
                 'message' => 'The reservation does not exist or you do not have access'
             ], 404);
