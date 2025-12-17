@@ -12,4 +12,9 @@ class Space extends Model
         'capacity',
         'active',
     ];
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
 }
