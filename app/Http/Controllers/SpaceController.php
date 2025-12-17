@@ -29,7 +29,7 @@ class SpaceController extends Controller
     public function get(Space $space){
         if(! $space->active){
             return response()->json([
-                'message' => 'El espacio seleccionado no existe o ya no está disponible'
+                'message' => 'The selected space does not exist or is no longer available'
             ], 404);
         }
         return response()->json([
@@ -42,7 +42,7 @@ class SpaceController extends Controller
     {
         if (! $space->active) {
             return response()->json([
-                'message' => 'El espacio seleccionado no existe o ya no está disponible'
+                'message' => 'The selected space does not exist or is no longer available'
             ], 404);
         }
 
@@ -64,7 +64,7 @@ class SpaceController extends Controller
 
         if (! $space->active) {
             return response()->json([
-                'message' => 'El espacio seleccionado no existe o ya no está disponible'
+                'message' => 'The selected space does not exist or is no longer available'
             ], 404);
         }
 
