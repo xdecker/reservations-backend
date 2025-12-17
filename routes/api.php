@@ -15,10 +15,14 @@ Route::middleware('auth:api')->group(function () {
 
     //spaces
     Route::get('/spaces', [SpaceController::class, 'getAll']);
-    Route::post('/spaces', [SpaceController::class, 'create']);
     Route::get('/spaces/{id}', [SpaceController::class, 'get']);
-    Route::put('/spaces/{id}', [SpaceController::class, 'update']);
-    Route::delete('/spaces/{id}', [SpaceController::class, 'delete']);
+    
+    //spaces - admin
+    Route::middleware('admin')->group(function () {
+        Route::post('/spaces', [SpaceController::class, 'create']);
+        Route::put('/spaces/{id}', [SpaceController::class, 'update']);
+        Route::delete('/spaces/{id}', [SpaceController::class, 'delete']);
+    });
 
     //reservations
     Route::get('/reservations', [ReservationController::class, 'getAll']);

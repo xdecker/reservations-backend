@@ -19,6 +19,11 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    public function isAdmin(): bool
+    {
+        return $this->role === 'ADMIN';
+    }
+
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
@@ -31,6 +36,7 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
