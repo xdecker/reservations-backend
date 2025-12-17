@@ -11,6 +11,8 @@ class Space extends Model
         'description',
         'capacity',
         'active',
+        'available_from',
+        'available_to'
     ];
 
     public function reservations()
