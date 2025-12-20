@@ -56,7 +56,10 @@ class SpaceController extends Controller
     public function create(Request $request){
         $validated = $request->validate([
             'name' => 'required|string',
-            'capacity'=>'required|integer|min:1'
+            'capacity'=>'required|integer|min:1',
+            'description'=>'nullable|string',
+            'available_from' =>'required|date_format:H:i:s',
+            'available_to' => 'required|date_format:H:i:s',
         ]);
 
         $space = Space::create($validated);
@@ -140,7 +143,9 @@ class SpaceController extends Controller
         $validated = $request->validate([
             'name' => 'sometimes|string',
             'capacity' => 'sometimes|integer|min:1',
-            'description' => 'nullable|string'
+            'description' => 'nullable|string',
+            'available_from' => 'sometimes|date_format:H:i:s',
+            'available_to' => 'sometimes|date_format:H:i:s',
         ]);
 
         $space->update($validated);
