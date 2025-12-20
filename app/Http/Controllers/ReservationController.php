@@ -30,7 +30,7 @@ class ReservationController extends Controller
         ->get();
         return response()->json([
             'data' => $reservations,
-            'message' => 'Reservations retrieved successfully'
+            'message' => 'Reservas obtenidas correctamente'
         ]);
     }
 
@@ -48,17 +48,17 @@ class ReservationController extends Controller
     public function get($id){
         $reservation = Reservation::where('id', $id)
         ->where('active', true)
-        ->where('user_id', auth()->id())
+        ->where('user_id', auth()->id()) //solo las mias
         ->first();
 
         if (! $reservation) {
             return response()->json([
-                'message' => 'The reservation does not exist or you do not have access'
+                'message' => 'La reserva no existe o ya no está disponible'
             ], 404);
         }
         return response()->json([
             'data' => $reservation,
-            'message' => 'Reservation retrieved successfully'
+            'message' => 'Reserva obtenida correctamente'
         ]);
     }
 
@@ -87,7 +87,7 @@ class ReservationController extends Controller
 
         if(! Space::where('id', $data['space_id'])->where('active', true)->exists()){
             return response()->json([
-                'message' => 'The selected space does not exist or is no longer available'
+                'message' => 'El espacio seleccionado no existe o ya no está disponible'
             ], 404);
         }
 
@@ -101,7 +101,7 @@ class ReservationController extends Controller
 
         if ($exists) {
             return response()->json([
-                'message' => 'The space is already reserved at that time'
+                'message' => 'El espacio ya se encuentra reservado en esa fecha y horas'
             ], 422);
         }
 
@@ -115,7 +115,7 @@ class ReservationController extends Controller
 
         return response()->json([
             'data' => $reservation,
-            'message' => 'Reservation created successfully'
+            'message' => 'Reserva creada correctamente'
         ], 201);
     }
 
@@ -146,7 +146,7 @@ class ReservationController extends Controller
 
         if (! $reservation) {
             return response()->json([
-                'message' => 'The reservation does not exist or you do not have access'
+                'message' => 'La reserva no existe o ya no está disponible'
             ], 404);
         }
 
@@ -156,7 +156,7 @@ class ReservationController extends Controller
 
         if ($end <= $start) {
             return response()->json([
-                'message' => 'End time must be greater than start time'
+                'message' => 'Hora fin debe ser mayor que Hora Inicio'
             ], 422);
         }
 
@@ -172,7 +172,7 @@ class ReservationController extends Controller
 
         if ($overlap) {
             return response()->json([
-                'message' => 'The space is already reserved at that time'
+                'message' => 'El espacio ya se encuentra reservado en esa fecha y horas'
             ], 422);
         }
 
@@ -180,7 +180,7 @@ class ReservationController extends Controller
 
         return response()->json([
             'data' => $reservation,
-            'message' => 'Reservation updated successfully'
+            'message' => 'Reserva actualizada correctamente'
         ]);
     }
 
@@ -203,7 +203,7 @@ class ReservationController extends Controller
 
         if (! $reservation) {
             return response()->json([
-                'message' => 'The reservation does not exist or you do not have access'
+                'message' => 'El espacio ya se encuentra reservado en esa fecha y horas'
             ], 404);
         }
 
@@ -211,7 +211,7 @@ class ReservationController extends Controller
 
         return response()->json([
             'data' => null,
-            'message' => 'Reservation cancelled successfully'
+            'message' => 'Reserva eliminada correctamente'
         ]);
     }
 }

@@ -31,7 +31,7 @@ class SpaceController extends Controller
     public function getAll(){
         return response()->json([
             'data' => Space::where('active', true)->get(),
-            'message' => 'Spaces retrieved successfully'
+            'message' => 'Espacios consultados correctamente'
         ]);
     }
 
@@ -65,7 +65,7 @@ class SpaceController extends Controller
         $space = Space::create($validated);
         return response()->json([
             'data' => $space,
-            'message' => 'Space created successfully'
+            'message' => 'Espacio creado correctamente'
         ], 201);
     }
 
@@ -94,13 +94,13 @@ class SpaceController extends Controller
 
         if (! $space) {
             return response()->json([
-                'message' => 'The selected space does not exist or is no longer available'
+                'message' => 'El espacio seleccionado no existe o ya no está disponible'
             ], 404);
         }
         
         return response()->json([
             'data' => $space,
-            'message' => 'Space retrieved successfully'
+            'message' => 'Espacio consultado correctamente'
         ]);
     }
 
@@ -136,7 +136,7 @@ class SpaceController extends Controller
 
         if (! $space) {
             return response()->json([
-                'message' => 'The selected space does not exist or is no longer available'
+                'message' => 'El espacio seleccionado no existe o ya no está disponible'
             ], 404);
         }
 
@@ -152,7 +152,7 @@ class SpaceController extends Controller
 
         return response()->json([
             'data' => $space,
-            'message' => 'Space updated successfully'
+            'message' => 'Espacio actualizado correctamente'
         ]);
     }
 
@@ -180,7 +180,7 @@ class SpaceController extends Controller
 
         if (! $space) {
             return response()->json([
-                'message' => 'The selected space does not exist or is no longer available'
+                'message' => 'El espacio seleccionado no existe o ya no está disponible'
             ], 404);
         }
 
@@ -188,7 +188,7 @@ class SpaceController extends Controller
 
         return response()->json([
             'data' => null,
-            'message' => 'Space deleted successfully'
+            'message' => 'Espacio eliminado correctamente'
         ]);
     }
 

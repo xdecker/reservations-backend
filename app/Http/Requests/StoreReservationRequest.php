@@ -41,18 +41,18 @@ class StoreReservationRequest extends FormRequest
                 if ($start->format('H:i') < $space->available_from || $end->format('H:i') > $space->available_to) {
                     $validator->errors()->add(
                         'time', 
-                        'The reservation must be within the available hours of the space (' . $space->available_from . ' - ' . $space->available_to . ').'
+                        'La reserva debe estar dentro del horario disponible del espacio (' . $space->available_from . ' - ' . $space->available_to . ').'
                     );
                 }
 
                 // Bloques de 30min para calendario limpio
                 if ($start->minute % 30 !== 0 || $end->minute % 30 !== 0) {
-                    $validator->errors()->add('time', 'Reservation must start and end in 30-minute blocks.');
+                    $validator->errors()->add('time', 'La reserva debe iniciar y finalizar en periodos de 30 minutos.');
                 }
 
                 // Que dure almenos 30min
                 if ($start->diffInMinutes($end) % 30 !== 0) {
-                    $validator->errors()->add('time', 'Reservation duration must be a block of 30 minutes.');
+                    $validator->errors()->add('time', 'La duración de la reserva debe ser en bloques de 30 minutos.');
                 }
             }
         });
